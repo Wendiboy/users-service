@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-	// database.InitDB()
 	db, err := database.InitDB()
 
 	if err != nil {

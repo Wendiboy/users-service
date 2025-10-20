@@ -22,8 +22,7 @@ func (h *Handler) CreateUser(ctx context.Context, req *userpb.CreateUserRequest)
 
 	userRequest := req
 	userToCreate := user.User{
-		Email: userRequest.Email,
-		// Password: userRequest.Password,
+		Email:    userRequest.Email,
 		Password: "SuperPassword",
 	}
 
@@ -45,7 +44,6 @@ func (h *Handler) CreateUser(ctx context.Context, req *userpb.CreateUserRequest)
 func (h *Handler) GetUser(ctx context.Context, req *userpb.GetUserRequest) (*userpb.GetUserResponse, error) {
 	log.Printf("LOG GetUser id=%d", req.Id)
 
-	// user, err := h.svc.GetUserById(string(req.Id))
 	user, err := h.svc.GetUserById(req.Id)
 	if err != nil {
 		log.Printf("Error get user by id: %v", err)

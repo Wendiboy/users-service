@@ -1,8 +1,6 @@
 package user
 
-// 	"GO_API/internal/taskService"
-
-// "github.com/google/uuid"
+import "math/rand"
 
 type Service interface {
 	CreateUser(user User) (User, error)
@@ -10,7 +8,6 @@ type Service interface {
 	GetUserById(id uint32) (User, error)
 	UpdateUser(updatedUser User) (User, error)
 	DeleteUser(id uint32) error
-	// GetTasksForUser(id string) ([]taskService.Task, error)
 }
 
 type userService struct {
@@ -22,8 +19,8 @@ func NewService(r UserRepository) Service {
 }
 
 func (s *userService) CreateUser(user User) (User, error) {
-	// user.Id = uuid.NewString()
-	// user.Id = 456456
+
+	user.Id = rand.Uint32()
 	if err := s.repo.CreateUser(user); err != nil {
 		return User{}, err
 	}
@@ -35,15 +32,10 @@ func (s *userService) GetAllUsers() ([]User, error) {
 }
 
 func (s *userService) GetUserById(id uint32) (User, error) {
-	// if _, err := uuid.Parse(id); err != nil {
-	// 	return User{}, err
-	// }
-
 	return s.repo.GetUserById(id)
 }
 
 func (s *userService) UpdateUser(updatedUser User) (User, error) {
-	updatedUser.Id = 456456
 	user, err := s.repo.GetUserById(updatedUser.Id)
 	if err != nil {
 		return User{}, err
@@ -60,21 +52,5 @@ func (s *userService) UpdateUser(updatedUser User) (User, error) {
 }
 
 func (s *userService) DeleteUser(id uint32) error {
-	// _, err := uuid.Parse(id)
-	// if err != nil {
-	// 	return err
-	// }
-
 	return s.repo.DeleteUser(id)
 }
-
-// func (s *userService) GetTasksForUser(userID string) ([]taskService.Task, error) {
-
-// 	userTasks, err := s.repo.GetUserTasks(userID)
-
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return userTasks, nil
-// }
