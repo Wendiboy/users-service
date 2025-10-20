@@ -23,7 +23,7 @@ func NewService(r UserRepository) Service {
 
 func (s *userService) CreateUser(user User) (User, error) {
 	// user.Id = uuid.NewString()
-	user.Id = 456456
+	// user.Id = 456456
 	if err := s.repo.CreateUser(user); err != nil {
 		return User{}, err
 	}

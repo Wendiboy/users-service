@@ -18,11 +18,12 @@ func NewHandler(svc user.Service) *Handler {
 }
 
 func (h *Handler) CreateUser(ctx context.Context, req *userpb.CreateUserRequest) (*userpb.CreateUserResponse, error) {
-	log.Printf("LOG CreateUser email=%d", req.Email)
+	log.Printf("LOG CreateUser email=, %s", req.Email)
 
 	userRequest := req
 	userToCreate := user.User{
-		Email:    userRequest.Email,
+		Email: userRequest.Email,
+		// Password: userRequest.Password,
 		Password: "SuperPassword",
 	}
 
@@ -32,11 +33,9 @@ func (h *Handler) CreateUser(ctx context.Context, req *userpb.CreateUserRequest)
 		return nil, err
 	}
 
-	// поменять id на string в proto
-
 	response := &userpb.CreateUserResponse{
 		User: &userpb.User{
-			Id:    123456,
+			Id:    createdUser.Id,
 			Email: createdUser.Email,
 		},
 	}
@@ -52,10 +51,10 @@ func (h *Handler) GetUser(ctx context.Context, req *userpb.GetUserRequest) (*use
 		log.Printf("Error get user by id: %v", err)
 		return nil, err
 	}
-	// поменять id на string в proto
+
 	response := &userpb.GetUserResponse{
 		User: &userpb.User{
-			Id:    123456,
+			Id:    user.Id,
 			Email: user.Email,
 		},
 	}
@@ -78,10 +77,9 @@ func (h *Handler) UpdateUser(ctx context.Context, req *userpb.UpdateUserRequest)
 		return nil, err
 	}
 
-	// поменять id на string в proto
 	response := &userpb.UpdateUserResponse{
 		User: &userpb.User{
-			Id:    123123,
+			Id:    updatedUser.Id,
 			Email: updatedUser.Email,
 		},
 	}
@@ -118,7 +116,7 @@ func (h *Handler) ListUsers(ctx context.Context, req *userpb.ListUsersRequest) (
 	var pbUsers []*userpb.User
 	for _, user := range users {
 		pbUsers = append(pbUsers, &userpb.User{
-			Id:    123123,
+			Id:    user.Id,
 			Email: user.Email,
 		})
 	}
