@@ -46,7 +46,8 @@ func (h *Handler) CreateUser(ctx context.Context, req *userpb.CreateUserRequest)
 func (h *Handler) GetUser(ctx context.Context, req *userpb.GetUserRequest) (*userpb.GetUserResponse, error) {
 	log.Printf("LOG GetUser id=%d", req.Id)
 
-	user, err := h.svc.GetUserById(string(req.Id))
+	// user, err := h.svc.GetUserById(string(req.Id))
+	user, err := h.svc.GetUserById(req.Id)
 	if err != nil {
 		log.Printf("Error get user by id: %v", err)
 		return nil, err
@@ -67,7 +68,7 @@ func (h *Handler) UpdateUser(ctx context.Context, req *userpb.UpdateUserRequest)
 	log.Printf("UpdateUser request: id=%d, email=%s", req.Id, req.Email)
 
 	userToUpdate := user.User{
-		Id:    string(req.Id),
+		Id:    req.Id,
 		Email: req.Email,
 	}
 
@@ -92,7 +93,7 @@ func (h *Handler) UpdateUser(ctx context.Context, req *userpb.UpdateUserRequest)
 func (h *Handler) DeleteUser(ctx context.Context, req *userpb.DeleteUserRequest) (*userpb.DeleteUserResponse, error) {
 	log.Printf("DeleteUser id %d", req.Id)
 
-	err := h.svc.DeleteUser(string(req.Id))
+	err := h.svc.DeleteUser(req.Id)
 	if err != nil {
 		log.Printf("Error deleting user: %v", err)
 		return nil, err

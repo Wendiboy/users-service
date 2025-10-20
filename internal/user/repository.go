@@ -1,18 +1,15 @@
 package user
 
 import (
-	// "GO_API/internal/taskService"
-
 	"gorm.io/gorm"
 )
 
 type UserRepository interface {
 	CreateUser(user User) error
 	GetAllUsers() ([]User, error)
-	GetUserById(id string) (User, error)
+	GetUserById(id uint32) (User, error)
 	UpdateUser(user User) error
-	DeleteUser(id string) error
-	// GetUserTasks(userID string) ([]taskService.Task, error)
+	DeleteUser(id uint32) error
 }
 
 type userRepo struct {
@@ -36,7 +33,7 @@ func (r *userRepo) GetAllUsers() ([]User, error) {
 	return users, err
 }
 
-func (r *userRepo) GetUserById(id string) (User, error) {
+func (r *userRepo) GetUserById(id uint32) (User, error) {
 	var user User
 
 	err := r.db.Find(&user, "id=?", id).Error
@@ -48,14 +45,6 @@ func (r *userRepo) UpdateUser(user User) error {
 	return r.db.Save(&user).Error
 }
 
-func (r *userRepo) DeleteUser(id string) error {
+func (r *userRepo) DeleteUser(id uint32) error {
 	return r.db.Delete(&User{}, "id=?", id).Error
 }
-
-// func (r *userRepo) GetUserTasks(userID string) ([]taskService.Task, error) {
-// 	var tasks []taskService.Task
-
-// 	err := r.db.Where("user_id = ?", userID).Find(&tasks).Error
-
-// 	return tasks, err
-// }

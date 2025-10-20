@@ -1,17 +1,15 @@
 package user
 
-import (
-	// 	"GO_API/internal/taskService"
+// 	"GO_API/internal/taskService"
 
-	"github.com/google/uuid"
-)
+// "github.com/google/uuid"
 
 type Service interface {
 	CreateUser(user User) (User, error)
 	GetAllUsers() ([]User, error)
-	GetUserById(id string) (User, error)
+	GetUserById(id uint32) (User, error)
 	UpdateUser(updatedUser User) (User, error)
-	DeleteUser(id string) error
+	DeleteUser(id uint32) error
 	// GetTasksForUser(id string) ([]taskService.Task, error)
 }
 
@@ -24,7 +22,8 @@ func NewService(r UserRepository) Service {
 }
 
 func (s *userService) CreateUser(user User) (User, error) {
-	user.Id = uuid.NewString()
+	// user.Id = uuid.NewString()
+	user.Id = 456456
 	if err := s.repo.CreateUser(user); err != nil {
 		return User{}, err
 	}
@@ -35,15 +34,16 @@ func (s *userService) GetAllUsers() ([]User, error) {
 	return s.repo.GetAllUsers()
 }
 
-func (s *userService) GetUserById(id string) (User, error) {
-	if _, err := uuid.Parse(id); err != nil {
-		return User{}, err
-	}
+func (s *userService) GetUserById(id uint32) (User, error) {
+	// if _, err := uuid.Parse(id); err != nil {
+	// 	return User{}, err
+	// }
 
 	return s.repo.GetUserById(id)
 }
 
 func (s *userService) UpdateUser(updatedUser User) (User, error) {
+	updatedUser.Id = 456456
 	user, err := s.repo.GetUserById(updatedUser.Id)
 	if err != nil {
 		return User{}, err
@@ -59,11 +59,11 @@ func (s *userService) UpdateUser(updatedUser User) (User, error) {
 	return user, nil
 }
 
-func (s *userService) DeleteUser(id string) error {
-	_, err := uuid.Parse(id)
-	if err != nil {
-		return err
-	}
+func (s *userService) DeleteUser(id uint32) error {
+	// _, err := uuid.Parse(id)
+	// if err != nil {
+	// 	return err
+	// }
 
 	return s.repo.DeleteUser(id)
 }
